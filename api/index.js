@@ -1,4 +1,4 @@
-// api/index.js
+// index.js
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -9,21 +9,30 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+
+// --- THE DEFINITIVE CORS FIX ---
+// This tells your API to ONLY accept requests from your deployed frontend.
+// IMPORTANT: Replace the URL with your actual frontend URL if it's different.
+const allowedOrigins = ['https://budgetbuddy-deploy.vercel.app'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+app.use(cors(corsOptions));
+
+// Middleware for parsing JSON
 app.use(express.json());
 
+// API Routes
+app.get('/', (req, res) => {
+  res.send('BudgetBuddy API is running and configured correctly.');
+});
 app.use('/api/transactions', transactionRoutes);
 
-// --- CRITICAL ADDITION: Global Error Handler ---
-// This will catch any errors that occur in your controllers
-// and send a detailed response, which we can see in the Vercel logs.
-app.use((err, req, res, next) => {
-  console.error("!!! GLOBAL ERROR HANDLER CAUGHT AN ERROR !!!");
-  console.error("ERROR STACK:", err.stack);
-  res.status(500).send({ 
-    message: 'An unexpected error occurred on the server.',
-    error: err.message // Send the actual error message back
-  });
-});
-
+// Export the app for Vercel's serverless environment
 module.exports = app;
