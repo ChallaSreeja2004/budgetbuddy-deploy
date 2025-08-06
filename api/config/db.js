@@ -1,13 +1,14 @@
-// config/db.js
+// api/config/db.js
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1); // Exit process with failure
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('MongoDB Connected...');
+  } catch (err) {
+    console.error('MongoDB Connection Error:', err.message);
+    // In a serverless environment, we might not want to exit the process
+    // but the log is crucial.
   }
 };
 

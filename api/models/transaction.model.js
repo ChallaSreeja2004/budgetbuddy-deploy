@@ -1,50 +1,41 @@
-// models/transaction.model.js
+// api/models/transaction.model.js
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema(
   {
     description: {
       type: String,
-      trim: true, // Removes whitespace from both ends
+      trim: true,
       required: [true, 'Please add a description'],
     },
     amount: {
       type: Number,
-      required: [true, 'Please add a positive or negative number'],
+      required: [true, 'Please add an amount'],
     },
     type: {
       type: String,
-      enum: ['Income', 'Expense'], // Only these values are allowed
-      required: [true, 'Please specify the type (Income or Expense)'],
+      enum: ['Income', 'Expense'],
+      required: [true, 'Please specify a type'],
     },
     category: {
       type: String,
-      enum: [
-        'Food',
-        'Rent',
-        'Entertainment',
-        'Salary',
-        'Transportation',
-        'Other',
-      ],
+      enum: [ 'Food', 'Rent', 'Entertainment', 'Salary', 'Transportation', 'Other' ],
       required: [true, 'Please select a category'],
     },
     isCleared: {
       type: Boolean,
       default: false,
     },
-    // --- ADD THIS FIELD ---
     date: {
       type: Date,
-      default: Date.now, // Defaults to the creation date
-    }
-    // We don't need a separate 'date' field because of the 'timestamps' option below
+      default: Date.now,
+    },
   },
   {
-    // This option automatically adds `createdAt` and `updatedAt` fields
     timestamps: true,
   }
 );
 
-// Create the model from the schema and export it
-module.exports = mongoose.model('Transaction', transactionSchema);
+// This prevents Mongoose from trying to re-compile the model if it already exists,
+// which can happen in serverless environments.
+module.exports = mongoose.models.Transaction || mongoose.model('Transaction', transactionSchema);
