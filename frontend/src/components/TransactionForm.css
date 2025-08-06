@@ -1,0 +1,53 @@
+/* src/components/TransactionForm.css */
+.form-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+.form-control {
+  margin-bottom: 15px;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-control input,
+.form-control select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Important for padding */
+}
+
+.btn {
+  background-color: #282c34;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #444a53;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px; /* Adds space between buttons */
+}
+
+.btn.btn-cancel {
+  background-color: #6c757d; /* A neutral grey */
+}
+
+.btn.btn-cancel:hover {
+  background-color: #5a6268;
+}

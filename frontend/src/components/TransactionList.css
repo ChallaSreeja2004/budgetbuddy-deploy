@@ -1,0 +1,30 @@
+/* src/components/TransactionList.css */
+.transaction-list-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.transaction-list-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* Style for income items */
+.transaction-list-container li.income {
+  border-left: 5px solid #28a745; /* Green */
+}
+
+/* Style for expense items */
+.transaction-list-container li.expense {
+  border-left: 5px solid #dc3545; /* Red */
+}
+
+.transaction-list-container .buttons button {
+  margin-left: 10px;
+  cursor: pointer;
+}
