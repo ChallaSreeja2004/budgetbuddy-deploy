@@ -12,11 +12,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// A simple test route to see if the server itself is alive
-app.get('/api', (req, res) => {
-  res.send('BudgetBuddy API is running correctly.');
-});
-
 app.use('/api/transactions', transactionRoutes);
+
+// --- CRITICAL ADDITION: Global Error Handler ---
+// This will catch any errors that occur in your controllers
+// and send a detailed response, which we can see in the Vercel logs.
+app.use((err, req, res, next) => {
+  console.error("!!! GLOBAL ERROR HANDLER CAUGHT AN ERROR !!!");
+  console.error("ERROR STACK:", err.stack);
+  res.status(500).send({ 
+    message: 'An unexpected error occurred on the server.',
+    error: err.message // Send the actual error message back
+  });
+});
 
 module.exports = app;
