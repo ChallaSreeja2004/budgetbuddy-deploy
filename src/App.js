@@ -33,7 +33,7 @@ const Dashboard = () => {
     try {
       // This is now the ONLY data fetch, it's simple and paginated
       const params = new URLSearchParams({ ...filters, page, limit: ITEMS_PER_PAGE });
-      const response = await axios.get(`/api/transactions?${params}`);
+      const response = await axios.get(`https://budgetbuddy-api-final.vercel.app/api/transactions?${params}`);
       setTransactions(response.data.data);
       setPagination(response.data.pagination);
     } catch (error) {
@@ -48,16 +48,16 @@ const Dashboard = () => {
   }, [filters]);
 
   const handleAddTransaction = async (data) => {
-    await axios.post('/api/transactions', data);
+    await axios.post('https://budgetbuddy-api-final.vercel.app/api/transactions', data);
     setFilters({ type: 'all', category: 'all' }); // Reset filters to force a full refresh
     navigate('/');
   };
   const handleDeleteTransaction = async (id) => {
-    await axios.delete(`/api/transactions/${id}`);
+    await axios.delete(`https://budgetbuddy-api-final.vercel.app/api/transactions/${id}`);
     fetchTransactions(pagination.currentPage); // Refetch the current page
   };
   const handleUpdateTransaction = async (id, data) => {
-    await axios.put(`/api/transactions/${id}`, data);
+    await axios.put(`https://budgetbuddy-api-final.vercel.app/api/transactions/${id}`, data);
     navigate('/');
     // A small delay before refetching to allow DB to update
     setTimeout(() => setFilters(prev => ({...prev})), 100);
